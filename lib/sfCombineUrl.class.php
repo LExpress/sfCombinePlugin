@@ -123,7 +123,9 @@ class sfCombineUrl
 
     if (function_exists('apc_store') && ini_get('apc.enabled'))
     {
-      $cache = new sfAPCCache();
+      $cache = new sfAPCCache(array(
+        'prefix' => sfCombineUtility::getAPCPrefix(),
+      ));
       $check = $cache->has($key);
     }
     else
@@ -142,7 +144,7 @@ class sfCombineUrl
       {
         throw new Exception('Call the task `doctrine:build-model` or use base64 url');
       }
-      
+
       $keyExists = Doctrine::getTable('sfCombine')->find($key);
       if (!$keyExists)
       {
@@ -151,11 +153,9 @@ class sfCombineUrl
         $combine->setFiles($content);
         $combine->save();
       }
-        
+
       $cache->set($key, $content);
     }
-    
-    
 
     return $key;
   }
@@ -168,11 +168,13 @@ class sfCombineUrl
   static public function getFilesByKey($key, $separator = ' ')
   {
     $base64 = false;
-  
+
     // try get base64 from cache
     if (function_exists('apc_store') && ini_get('apc.enabled'))
     {
-      $cache = new sfAPCCache();
+      $cache = new sfAPCCache(array(
+        'prefix' => sfCombineUtility::getAPCPrefix(),
+      ));
       $base64 = $cache->get($key);
     }
 

@@ -155,7 +155,7 @@ class sfCombineUtility
    */
   static public function skipAsset($file, array $doNotCombine = array())
   {
-    return 
+    return
       in_array($file, $doNotCombine)
       ||
       in_array(basename($file), $doNotCombine)
@@ -169,9 +169,17 @@ class sfCombineUtility
    */
   static public function getCacheDir()
   {
-    return sfConfig::get('sf_cache_dir') . '/' 
+    return sfConfig::get('sf_cache_dir') . '/'
       . sfConfig::get('app_sfCombinePlugin_cache_dir','sfCombine')
     ;
+  }
+
+  /**
+   * Get the APC prefix for sfCombine
+   */
+  static public function getAPCPrefix()
+  {
+    return sfConfig::get('app_sfCombinePlugin_apc_prefix', 'sfCombine');
   }
 
   /**
@@ -235,7 +243,7 @@ class sfCombineUtility
     {
       return false;
     }
-    
+
     $version = floatval(substr($userAgent, 30));
 
     return $version < 6 || ($version == 6 && strpos($userAgent, 'SV1') === false);

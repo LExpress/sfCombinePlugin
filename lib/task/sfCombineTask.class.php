@@ -42,7 +42,9 @@ EOF;
 
     if (function_exists('apc_store') && ini_get('apc.enabled'))
     {
-      $cache = new sfAPCCache();
+      $cache = new sfAPCCache(array(
+        'prefix' => sfCombineUtility::getAPCPrefix(),
+      ));
       if (!ini_get('apc.enable_cli'))
       {
         $this->logSection('combine', 'Check apc.enable_cli in your ini file', null, 'ERROR');
@@ -63,7 +65,7 @@ EOF;
         $this->logSection('combine', 'Call the task `doctrine:build-model`', null, 'ERROR');
         return false;
       }
-      
+
       $results = Doctrine::getTable('sfCombine')->findAll();
       foreach ($results as $result)
       {
