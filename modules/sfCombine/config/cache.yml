@@ -1,6 +1,6 @@
 css:
-  enabled: on
+  enabled: false
   with_layout: true
 js:
-  enabled: on
+  enabled: false
   with_layout: true
